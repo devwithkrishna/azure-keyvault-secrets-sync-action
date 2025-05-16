@@ -8,7 +8,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-azure-keyvault-secrets = "=4.2.0"
+azure-keyvault-secrets = "=4.9.0"
 azure-identity = "=1.22.0"
 python-dotenv = "^1.0.0"
 pyyaml = "^6.0.2"
