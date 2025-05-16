@@ -45,13 +45,13 @@ def get_secret_from_keyvault(keyvault_name: str, secret_name: str) -> str:
 	secrets = {}  # Dictionary to store secrets
 
 	for secret in secret_name[0].split(','):
-		logging.info(f"Getting secret {secret} from Key Vault {keyvault_name}")
+		logger.info(f"Getting secret {secret} from Key Vault {keyvault_name}")
 		try:
 			kv_secret = client.get_secret(secret)
 			secrets[secret] = kv_secret.value
-			logging.info(f"Secret {secret} retrieved successfully.")
+			logger.info(f"Secret {secret} retrieved successfully.")
 		except Exception as e:
-			logging.error(f"Error retrieving secret {secret} from Key Vault {keyvault_name}: {e}")
+			logger.error(f"Error retrieving secret {secret} from Key Vault {keyvault_name}: {e}")
 			return None
 
 	logger.info(f"All secrets retrieved from Key Vault {keyvault_name}")
@@ -73,7 +73,7 @@ def set_secrets_in_keyvault(keyvault_name: list[str], secrets: dict) -> None:
 	credentials = DefaultAzureCredential()
 	keyvault_url = get_keyvault_endpoints(keyvault_name)
 	for kv_url in keyvault_url:
-		logging.info(f"Setting secrets in Key Vault {kv_url}")
+		logger.info(f"Setting secrets in Key Vault {kv_url}")
 		client = SecretClient(vault_url=kv_url, credential=credentials)
 
 		now = datetime.now()
@@ -84,9 +84,9 @@ def set_secrets_in_keyvault(keyvault_name: list[str], secrets: dict) -> None:
 				description = f"Secret {secret_name} created on {formatted} by kv secrets migration action"
 				logger.info(f"Setting secret {secret_name} in Key Vault {kv_url}")
 				client.set_secret(name=secret_name, value=secret_value, content_type=description)
-				logging.info(f"Secret {secret_name} set successfully.")
+				logger.info(f"Secret {secret_name} set successfully.")
 			except Exception as e:
-				logging.error(f"Error setting secret {secret_name} in Key Vault {kv_url}: {e}")
+				logger.error(f"Error setting secret {secret_name} in Key Vault {kv_url}: {e}")
 				return None
 
 
