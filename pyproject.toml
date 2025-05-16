@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "azure-keyvault-secrets-sync-action"
+version = "0.1.0"
+description = "Github action to copy secrets from one to multiple keyvaults"
+
+authors = ["githubofkrishnadhas <krishnadhasnk1997@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+azure-keyvault-secrets = "=4.2.0"
+azure-identity = "=1.22.0"
+python-dotenv = "^1.0.0"
+pyyaml = "^6.0.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

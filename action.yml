@@ -1,0 +1,49 @@
+name: Azure KeyVault Secrets Migration
+author: 'githubofkrishnadhas'
+# reference https://haya14busa.github.io/github-action-brandings/
+branding:
+  icon: 'check-circle'
+  color: 'green'
+
+description: |
+  Composite action to migrate secrets between Azure KeyVaults using the repo's Python script.
+
+inputs:
+  source_keyvault:
+    description: 'Source Key Vault name'
+    required: true
+  destination_keyvault_names:
+    description: 'Comma-separated list of destination Key Vault names'
+    required: true
+  secret_names:
+    description: 'Comma-separated list of secret names to migrate'
+    required: true
+  target_secret_names:
+    description: 'Comma-separated list of target secret names (optional)'
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install poetry
+        poetry install -v --no-root --no-interaction
+      shell: bash
+
+    - name: Run KeyVault migration
+      run: |
+        poetry run python3 keyvault.py \
+          --source_keyvault "${{ inputs.source_keyvault }}" \
+          --destination_keyvault_names "${{ inputs.destination_keyvault_names }}" \
+          --secret_names "${{ inputs.secret_names }}" \
+          ${{ inputs.target_secret_names && format('--target_secret_names "{0}"', inputs.target_secret_names) || '' }}
+      shell: bash
