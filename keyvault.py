@@ -148,7 +148,7 @@ def main():
 	logger.info(f"Target secret names: {target_secret_names}")
 
 	secrets = get_secret_from_keyvault(keyvault_name=source_keyvault, secret_name=secret_names)
-	logger.info(f"Secrets retrieved from Key Vault {secrets} successfully.")
+	logger.info(f"Secrets retrieved from Key Vault successfully.")
 	if target_secret_names:
 		secrets_to_set = dict(zip(target_secret_names[0].split(','), secrets.values()))
 	else:

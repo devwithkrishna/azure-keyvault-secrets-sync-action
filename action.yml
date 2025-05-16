@@ -27,6 +27,8 @@ runs:
   steps:
 
     - uses: actions/checkout@v4
+      with:
+        repository: 'devwithkrishna/azure-keyvault-secrets-sync-action'
 
     - name: Set up Python
       uses: actions/setup-python@v5
