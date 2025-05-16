@@ -74,8 +74,7 @@ def set_secrets_in_keyvault(keyvault_name: list[str], secrets: dict) -> None:
 	keyvault_url = get_keyvault_endpoints(keyvault_name)
 	for kv_url in keyvault_url:
 		logging.info(f"Setting secrets in Key Vault {kv_url}")
-		destination_kv = ''.join(kv_url)
-		client = SecretClient(vault_url=destination_kv, credential=credentials)
+		client = SecretClient(vault_url=kv_url, credential=credentials)
 
 		now = datetime.now()
 		formatted = now.strftime("%Y-%b-%d %H:%M").lower()
@@ -83,11 +82,11 @@ def set_secrets_in_keyvault(keyvault_name: list[str], secrets: dict) -> None:
 		for secret_name, secret_value in secrets.items():
 			try:
 				description = f"Secret {secret_name} created on {formatted} by kv secrets migration action"
-				logger.info(f"Setting secret {secret_name} in Key Vault {keyvault_name}")
+				logger.info(f"Setting secret {secret_name} in Key Vault {kv_url}")
 				client.set_secret(name=secret_name, value=secret_value, content_type=description)
 				logging.info(f"Secret {secret_name} set successfully.")
 			except Exception as e:
-				logging.error(f"Error setting secret {secret_name} in Key Vault {keyvault_name}: {e}")
+				logging.error(f"Error setting secret {secret_name} in Key Vault {kv_url}: {e}")
 				return None
 
 

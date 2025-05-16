@@ -25,7 +25,7 @@ loggers:
     handlers: [console, logfile]
     propagate: no
   azure:
-    level: WARNING
+    level: INFO
     handlers: [console, logfile]
     propagate: no
   azure.identity._credentials.chained:
